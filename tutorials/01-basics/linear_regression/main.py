@@ -54,7 +54,9 @@ for epoch in range(num_epochs):
         print ('Epoch [{}/{}], Loss: {:.4f}'.format(epoch+1, num_epochs, loss.item()))
 
 # Plot the graph
-predicted = model(torch.from_numpy(x_train)).detach().numpy()
+# detach().numpy(): 这一部分用于分离计算图并将输出转换回NumPy数组。
+# detach()方法将输出张量与计算图分离，这样就不会影响后续的反向传播过程。然后，.numpy()方法将分离后的张量转换回NumPy数组形式。
+predicted = model(torch.from_numpy(x_train)).detach().numpy()  # 将输入数据传递给模型model进行前向传播计算。
 plt.plot(x_train, y_train, 'ro', label='Original data')
 plt.plot(x_train, predicted, label='Fitted line')
 plt.legend()
@@ -62,4 +64,5 @@ plt.show()
 
 # Save the model checkpoint
 # 保存模型参数
+# model.state_dict(): 这部分代码返回了神经网络模型的当前状态字典。状态字典是一个Python字典对象，它包含了模型的所有参数（权重和偏置等）以及对应的键值对。
 torch.save(model.state_dict(), 'model.ckpt')
